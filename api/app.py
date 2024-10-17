@@ -170,7 +170,7 @@ def config(url):
             elif 'file=' in query_string:
                 index = query_string.find("file=")
                 request.args['file'] = query_string.split('file=')[-1].split('&', 1)[0]
-    print (f"request.args: {request.args}")
+    #print (f"request.args: {request.args}")
     if index_of_colon != -1:
         # 检查 ":" 后面是否只有一个 "/"，如果是，添加一个额外的 "/"
         next_char_index = index_of_colon + 2
@@ -184,7 +184,7 @@ def config(url):
         else:
             full_url = f"{encoded_url}"
 
-    print (f"full_url: {full_url}")
+    #print (f"full_url: {full_url}")
 
     emoji_param = request.args.get('emoji', '')
     file_param = request.args.get('file', '')
