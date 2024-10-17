@@ -228,27 +228,30 @@ def config(url):
         parsed_url1 = urlparse(subscribe_url1)
         query_params1 = parse_qs(parsed_url1.query)
         prefix1 = query_params1.get('prefix', [""])[0]
-        emoji1 = query_params1.get('emoji', [1])[0]
         subscribe['url'] = subscribe_url1
         subscribe['ex-node-name'] = enn_param
         subscribe['prefix'] = prefix1
-        subscribe['emoji'] = emoji1
+        subscribe['emoji'] = 1
         # 订阅2
         subscribe_url2 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
         parsed_url2 = urlparse(subscribe_url2)
         query_params2 = parse_qs(parsed_url2.query)
         prefix2 = query_params2.get('prefix', [""])[0]
-        emoji2 = query_params2.get('emoji', [1])[0]
         subscribe2['url'] = subscribe_url2
-        subscribe2['emoji'] = emoji2
+        subscribe2['emoji'] = 1
         subscribe2['enabled'] = True
         subscribe2['subgroup'] = ''
         subscribe2['prefix'] = prefix2
         subscribe2['ex-node-name'] = enn_param
         subscribe2['User-Agent'] = 'v2rayng'
         if len(url_parts) == 3:
-            subscribe3['url'] = full_url.split('url=', 1)[-1].split('|')[2] if full_url.startswith('url') else full_url.split('|')[2]
+            subscribe_url3 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[2]
+            parsed_url3 = urlparse(subscribe_url3)
+            query_params3 = parse_qs(parsed_url3.query)
+            prefix3 = query_params3.get('prefix', [""])[0]
+            subscribe3['url'] = subscribe_url3
             subscribe3['enabled'] = True
+            subscribe3['prefix'] = prefix3
             subscribe3['ex-node-name'] = enn_param
     if len(url_parts) == 1:
         subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
