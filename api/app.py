@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, Response
-from urllib.parse import quote, urlparse, unquote
+from urllib.parse import quote, urlparse, unquote, parse_qs
 import json
 import os
 import sys
@@ -208,10 +208,11 @@ def config(url):
         f'&enn={quote(enn_param)}'
     ]
     # 从url中删除这些字符串
-    full_url = full_url.replace(',', '%2C')
-    for param in params_to_remove:
-        if param in full_url:
-            full_url = full_url.replace(param, '')
+    if '|' not in full_url:
+        full_url = full_url.replace(',', '%2C')
+        for param in params_to_remove:
+            if param in full_url:
+                full_url = full_url.replace(param, '')
     if request.args.get('url'):
         full_url = full_url
     else:
@@ -222,13 +223,27 @@ def config(url):
     print (full_url)
     url_parts = full_url.split('|')
     if len(url_parts) > 1:
-        subscribe['url'] = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
+        # 订阅1
+        subscribe_url1 = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
+        parsed_url1 = urlparse(subscribe_url1)
+        query_params1 = parse_qs(parsed_url1.query)
+        prefix1 = query_params1.get('prefix', [""])[0]
+        emoji1 = query_params1.get('emoji', [1])[0]
+        subscribe['url'] = subscribe_url1
         subscribe['ex-node-name'] = enn_param
-        subscribe2['url'] = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
-        subscribe2['emoji'] = 1
+        subscribe['prefix'] = prefix1
+        subscribe['emoji'] = emoji1
+        # 订阅2
+        subscribe_url2 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
+        parsed_url2 = urlparse(subscribe_url2)
+        query_params2 = parse_qs(parsed_url2.query)
+        prefix2 = query_params2.get('prefix', [""])[0]
+        emoji2 = query_params2.get('emoji', [1])[0]
+        subscribe2['url'] = subscribe_url2
+        subscribe2['emoji'] = emoji2
         subscribe2['enabled'] = True
         subscribe2['subgroup'] = ''
-        subscribe2['prefix'] = ''
+        subscribe2['prefix'] = prefix2
         subscribe2['ex-node-name'] = enn_param
         subscribe2['User-Agent'] = 'v2rayng'
         if len(url_parts) == 3:
