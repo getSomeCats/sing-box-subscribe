@@ -125,11 +125,11 @@ def config(url):
     subscribe2 = temp_json_data['subscribes'][1]
     subscribe3 = temp_json_data['subscribes'][2]
     query_string = request.query_string.decode('utf-8')
-    print (f"query_string: {query_string}")
-    print (f"url: {url}")
+    #print (f"query_string: {query_string}")
+    #print (f"url: {url}")
     #encoded_url = quote(url, safe=':/')  # 对 url 进行编码
     encoded_url = unquote(url)
-    print (f"encoded_url: {encoded_url}")
+    #print (f"encoded_url: {encoded_url}")
     index_of_colon = encoded_url.find(":")
 
     if not query_string:
@@ -171,7 +171,6 @@ def config(url):
                 index = query_string.find("file=")
                 request.args['file'] = query_string.split('file=')[-1].split('&', 1)[0]
     print (f"request.args: {request.args}")
-    print (f"encoded_url2: {encoded_url}")
     if index_of_colon != -1:
         # 检查 ":" 后面是否只有一个 "/"，如果是，添加一个额外的 "/"
         next_char_index = index_of_colon + 2
