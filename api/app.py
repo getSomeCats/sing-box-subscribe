@@ -171,7 +171,7 @@ def config(url):
                 index = query_string.find("file=")
                 request.args['file'] = query_string.split('file=')[-1].split('&', 1)[0]
     print (f"request.args: {request.args}")
-
+    print (f"encoded_url2: {encoded_url}")
     if index_of_colon != -1:
         # 检查 ":" 后面是否只有一个 "/"，如果是，添加一个额外的 "/"
         next_char_index = index_of_colon + 2
