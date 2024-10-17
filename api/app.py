@@ -231,14 +231,14 @@ def config(url):
         subscribe['url'] = subscribe_url1
         subscribe['ex-node-name'] = enn_param
         subscribe['prefix'] = prefix1
-        subscribe['emoji'] = 1
+        subscribe['emoji'] = 0
         # 订阅2
         subscribe_url2 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
         parsed_url2 = urlparse(subscribe_url2)
         query_params2 = parse_qs(parsed_url2.query)
         prefix2 = query_params2.get('prefix', [""])[0]
         subscribe2['url'] = subscribe_url2
-        subscribe2['emoji'] = 1
+        subscribe2['emoji'] = 0
         subscribe2['enabled'] = True
         subscribe2['subgroup'] = ''
         subscribe2['prefix'] = prefix2
@@ -252,7 +252,7 @@ def config(url):
             subscribe3['url'] = subscribe_url3
             subscribe3['enabled'] = True
             subscribe3['prefix'] = prefix3
-            subscribe3['emoji'] = 1
+            subscribe3['emoji'] = 0
             subscribe3['ex-node-name'] = enn_param
     if len(url_parts) == 1:
         subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
