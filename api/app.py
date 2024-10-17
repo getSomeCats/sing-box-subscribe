@@ -180,8 +180,8 @@ def config(url):
     if query_string:
         full_url = f"{encoded_url}?{query_string}"
     else:
-        if any(substring in encoded_url for substring in ['&emoji=', '&file=']):
-            full_url = f"{encoded_url.split('&')[0]}"
+        if any(substring in url for substring in ['&emoji=', '&file=']):
+            full_url = unquote(url.split('&', 1)[0])
         else:
             full_url = f"{encoded_url}"
 
