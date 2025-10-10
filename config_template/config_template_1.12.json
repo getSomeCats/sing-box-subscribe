@@ -144,26 +144,31 @@
             "tag": "OpenAI",
             "type": "selector",
             "outbounds": [
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
+                "{all}"
             ],
-            "default": "America"
+            "filter": [
+                {
+                    "action": "include",
+                    "keywords": [
+                        "🇺🇸|US|us|美国|美|United States"
+                    ]
+                }
+            ]
         },
         {
             "tag": "Anthropic",
             "type": "selector",
             "outbounds": [
-                "England",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
+                "{all}"
             ],
-            "default": "England"
+            "filter": [
+                {
+                    "action": "include",
+                    "keywords": [
+                        "🇬🇧|英国"
+                    ]
+                }
+            ]
         },
         {
             "tag": "Google",
@@ -175,7 +180,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Telegram",
@@ -187,7 +193,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Twitter",
@@ -199,7 +206,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Facebook",
@@ -211,7 +219,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "BiliBili",
@@ -265,7 +274,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Disney+",
@@ -277,7 +287,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Apple",
@@ -303,7 +314,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Streaming",
@@ -315,7 +327,8 @@
                 "Japan",
                 "America",
                 "Others"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "Global",
@@ -328,7 +341,8 @@
                 "America",
                 "Others",
                 "direct"
-            ]
+            ],
+            "default": "America"
         },
         {
             "tag": "China",
@@ -414,21 +428,6 @@
             ]
         },
         {
-            "tag": "England",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇬🇧|英国"
-                    ]
-                }
-            ]
-        },
-        {
             "tag": "Others",
             "type": "selector",
             "outbounds": [
@@ -438,28 +437,10 @@
                 {
                     "action": "exclude",
                     "keywords": [
-                        "🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美"
+                        "🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|美|"
                     ]
                 }
             ]
-        },
-        {
-            "tag": "auto",
-            "type": "urltest",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "exclude",
-                    "keywords": [
-                        "网站|地址|剩余|过期|时间|有效"
-                    ]
-                }
-            ],
-            "url": "http://www.gstatic.com/generate_204",
-            "interval": "10m",
-            "tolerance": 50
         },
         {
             "type": "direct",
