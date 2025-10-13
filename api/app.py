@@ -120,10 +120,7 @@ def config(url):
                         content_type='application/json; charset=utf-8', status=403)
     # temp_json_data_str = os.environ['TEMP_JSON_DATA']
     # temp_json_data = json.loads(temp_json_data_str)
-    temp_json_data = json.loads('{"subscribes":[{"url":"URL","tag":"tag_1","enabled":true,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_2","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"},{"url":"URL","tag":"tag_3","enabled":false,"emoji":1,"subgroup":"","prefix":"","ex-node-name": "","User-Agent":"v2rayng"}],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
-    subscribe = temp_json_data['subscribes'][0]
-    subscribe2 = temp_json_data['subscribes'][1]
-    subscribe3 = temp_json_data['subscribes'][2]
+    temp_json_data = json.loads('{"subscribes":[],"auto_set_outbounds_dns":{"proxy":"","direct":""},"save_config_path":"./config.json","auto_backup":false,"exclude_protocol":"ssr","config_template":"","Only-nodes":false}')
     query_string = request.query_string.decode('utf-8')
     #print (f"query_string: {query_string}")
     #print (f"url: {url}")
@@ -223,46 +220,43 @@ def config(url):
         parts = full_url.split('/api/v4/projects/')
         full_url = parts[0] + '/api/v4/projects/' + parts[1].replace('/', '%2F', 1)
     print (full_url)
-    url_parts = full_url.split('|')
+
+    if full_url.startswith('url='):
+        all_urls_str = full_url.split('url=', 1)[-1]
+    else:
+        all_urls_str = full_url
+    
+    url_parts = all_urls_str.split('|')
+
     if len(url_parts) > 1:
-        # 订阅1
-        subscribe_url1 = full_url.split('url=', 1)[-1].split('|')[0] if full_url.startswith('url') else full_url.split('|')[0]
-        parsed_url1 = urlparse(subscribe_url1)
-        query_params1 = parse_qs(parsed_url1.query)
-        prefix1 = query_params1.get('prefix', [""])[0]
-        subscribe['url'] = subscribe_url1
-        subscribe['ex-node-name'] = enn_param
-        subscribe['prefix'] = prefix1
-        subscribe['emoji'] = 0
-        # 订阅2
-        subscribe_url2 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[1]
-        parsed_url2 = urlparse(subscribe_url2)
-        query_params2 = parse_qs(parsed_url2.query)
-        prefix2 = query_params2.get('prefix', [""])[0]
-        subscribe2['url'] = subscribe_url2
-        subscribe2['emoji'] = 0
-        subscribe2['enabled'] = True
-        subscribe2['subgroup'] = ''
-        subscribe2['prefix'] = prefix2
-        subscribe2['ex-node-name'] = enn_param
-        subscribe2['User-Agent'] = 'v2rayng'
-        if len(url_parts) == 3:
-            subscribe_url3 = full_url.split('url=', 1)[-1].split('|')[1] if full_url.startswith('url') else full_url.split('|')[2]
-            parsed_url3 = urlparse(subscribe_url3)
-            query_params3 = parse_qs(parsed_url3.query)
-            prefix3 = query_params3.get('prefix', [""])[0]
-            subscribe3['url'] = subscribe_url3
-            subscribe3['enabled'] = True
-            subscribe3['prefix'] = prefix3
-            subscribe3['emoji'] = 0
-            subscribe3['ex-node-name'] = enn_param
-    if len(url_parts) == 1:
-        subscribe['url'] = full_url.split('url=', 1)[-1] if full_url.startswith('url') else full_url
-        subscribe['emoji'] = int(emoji_param) if emoji_param.isdigit() else subscribe.get('emoji', '')
-        subscribe['tag'] = tag_param if tag_param else subscribe.get('tag', '')
-        subscribe['prefix'] = pre_param if pre_param else subscribe.get('prefix', '')
-        subscribe['ex-node-name'] = enn_param
-        subscribe['User-Agent'] = ua_param if ua_param else 'v2rayng'
+        for i, sub_url in enumerate(url_parts):
+            parsed_url = urlparse(sub_url)
+            query_params = parse_qs(parsed_url.query)
+            prefix = query_params.get('prefix', [""])[0]
+            
+            subscribe_item = {
+                "url": sub_url,
+                "tag": f"tag_{i+1}",
+                "enabled": True,
+                "emoji": 0,
+                "subgroup": "",
+                "prefix": prefix,
+                "ex-node-name": enn_param,
+                "User-Agent": "v2rayng"
+            }
+            temp_json_data['subscribes'].append(subscribe_item)
+    else: # len(url_parts) == 1
+        subscribe_item = {
+            "url": all_urls_str,
+            "emoji": int(emoji_param) if emoji_param.isdigit() else 1,
+            "tag": tag_param if tag_param else 'tag_1',
+            "enabled": True,
+            "subgroup": "",
+            "prefix": pre_param if pre_param else "",
+            "ex-node-name": enn_param,
+            "User-Agent": ua_param if ua_param else 'v2rayng'
+        }
+        temp_json_data['subscribes'].append(subscribe_item)
     temp_json_data['exclude_protocol'] = eps_param if eps_param else temp_json_data.get('exclude_protocol', '')
     temp_json_data['config_template'] = unquote(file_param) if file_param else temp_json_data.get('config_template', '')
     #print (f"Custom Page for {url} with link={full_url}, emoji={emoji_param}, file={file_param}, tag={tag_param}, UA={ua_param}, prefix={pre_param}")
@@ -282,9 +276,9 @@ def config(url):
         if CONFIG_FILE_NAME.startswith("./"):
             CONFIG_FILE_NAME = CONFIG_FILE_NAME[2:]
         # 设置配置文件的完整路径
-        config_file_path = os.path.join('/tmp/', CONFIG_FILE_NAME) 
+        config_file_path = os.path.join('/tmp/', CONFIG_FILE_NAME)
         if not os.path.exists(config_file_path):
-            config_file_path = CONFIG_FILE_NAME  # 使用相对于当前工作目录的路径 
+            config_file_path = CONFIG_FILE_NAME  # 使用相对于当前工作目录的路径
         os.environ['TEMP_JSON_DATA'] = json.dumps(json.loads(data_json['TEMP_JSON_DATA']), indent=4, ensure_ascii=False)
         # 读取配置文件内容
         with open(config_file_path, 'r', encoding='utf-8') as config_file:
@@ -297,7 +291,7 @@ def config(url):
     except subprocess.CalledProcessError as e:
         os.environ['TEMP_JSON_DATA'] = json.dumps(json.loads(data_json['TEMP_JSON_DATA']), indent=4, ensure_ascii=False)
         return Response(json.dumps({'status': 'error'}, indent=4,ensure_ascii=False), content_type='application/json; charset=utf-8', status=500)
-        #return jsonify({'status': 'error', 'message': str(e)}) 
+        #return jsonify({'status': 'error', 'message': str(e)})
     except Exception as e:
         #flash(f'Error occurred while generating the configuration file: {str(e)}', 'error')
         return Response(json.dumps({'status': 'error', 'message_CN': '认真看刚刚的网页说明、github写的reademe文件;', 'message_VN': 'Quá thời gian phân tích đăng ký: Vui lòng kiểm tra xem liên kết đăng ký có chính xác không hoặc vui lòng chuyển sang "nogroupstemplate" và thử lại; Vui lòng không chỉnh sửa giá trị "tag", trừ khi bạn hiểu nó làm gì;', 'message_EN': 'Subscription parsing timeout: Please check if the subscription link is correct or please change to "no_groups_template" and try again; Please do not modify the "tag" value unless you understand what it does;'}, indent=4,ensure_ascii=False), content_type='application/json; charset=utf-8', status=500)
