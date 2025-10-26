@@ -11,6 +11,11 @@ parsers_mod = {}
 providers = None
 color_code = [31, 32, 33, 34, 35, 36, 91, 92, 93, 94, 95, 96]
 
+def clean_name(node):
+    if isinstance(node, dict) and 'name' in node:
+        node['name'] = node['name'].replace('??', '')
+    return node
+
 
 def loop_color(text):
     text = '\033[1;{color}m{text}\033[0m'.format(color=color_code[0], text=text)
@@ -131,10 +136,15 @@ def nodefilter(nodes, subscribe):
                 if exns in node['tag']:
                     nodes.remove(node)
 
-
 def get_nodes(url):
+    def clean_name(node):
+        if isinstance(node, dict) and 'name' in node and isinstance(node['name'], str):
+            node['name'] = node['name'].replace('??', '')
+        return node
+
     if url.startswith('sub://'):
         url = tool.b64Decode(url[6:]).decode('utf-8')
+
     urlstr = urlparse(url)
     if not urlstr.scheme:
         try:
@@ -143,15 +153,15 @@ def get_nodes(url):
             processed_list = []
             for item in data:
                 if isinstance(item, tuple):
-                    processed_list.extend([item[0], item[1]])  # 处理shadowtls
+                    processed_list.extend([clean_name(item[0]), clean_name(item[1])])
                 else:
-                    processed_list.append(item)
+                    processed_list.append(clean_name(item))
             return processed_list
         except:
             content = get_content_form_file(url)
     else:
         content = get_content_from_url(url)
-    # print (content)
+
     if type(content) == dict:
         if 'proxies' in content:
             share_links = []
@@ -162,25 +172,29 @@ def get_nodes(url):
             processed_list = []
             for item in data:
                 if isinstance(item, tuple):
-                    processed_list.extend([item[0], item[1]])  # 处理shadowtls
+                    processed_list.extend([clean_name(item[0]), clean_name(item[1])])
                 else:
-                    processed_list.append(item)
+                    processed_list.append(clean_name(item))
             return processed_list
+
         elif 'outbounds' in content:
-            outbounds = []
             excluded_types = {"selector", "urltest", "direct", "block", "dns"}
-            filtered_outbounds = [outbound for outbound in content['outbounds'] if outbound.get("type") not in excluded_types]
-            outbounds.extend(filtered_outbounds)
-            return outbounds
-    else:
-        data = parse_content(content)
-        processed_list = []
-        for item in data:
-            if isinstance(item, tuple):
-                processed_list.extend([item[0], item[1]])  # 处理shadowtls
-            else:
-                processed_list.append(item)
-        return processed_list
+            filtered_outbounds = [
+                clean_name(outbound)
+                for outbound in content['outbounds']
+                if outbound.get("type") not in excluded_types
+            ]
+            return filtered_outbounds
+
+    data = parse_content(content)
+    processed_list = []
+    for item in data:
+        if isinstance(item, tuple):
+            processed_list.extend([clean_name(item[0]), clean_name(item[1])])
+        else:
+            processed_list.append(clean_name(item))
+    return processed_list
+
 
 
 def parse_content(content):
@@ -631,3 +645,4 @@ if __name__ == '__main__':
         final_config = combin_to_config(config, nodes)  # 节点信息添加到模板
     save_config(providers["save_config_path"], final_config)
     # updateLocalConfig('http://127.0.0.1:9090',providers['save_config_path'])
+
