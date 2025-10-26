@@ -24,7 +24,7 @@
                 "tag": "google",
                 "type": "tls",
                 "server": "8.8.8.8",
-                "detour": "Proxy"
+                "detour": "Proxies"
             },
             {
                 "tag": "local",
@@ -50,7 +50,7 @@
                 "domain_resolver": {
                     "server": "google"
                 },
-                "detour": "Proxy"
+                "detour": "Proxies"
             },
             {
                 "tag": "fakeip",
@@ -134,7 +134,7 @@
     ],
     "outbounds": [
         {
-            "tag": "Proxy",
+            "tag": "Proxies",
             "type": "selector",
             "outbounds": [
                 "{all}"
@@ -236,7 +236,7 @@
             "type": "selector",
             "outbounds": [
                 "TaiWan",
-                "Proxy"
+                "Proxies"
             ]
         },
         {
@@ -349,7 +349,7 @@
             "type": "selector",
             "outbounds": [
                 "direct",
-                "Proxy"
+                "Proxies"
             ]
         },
         {
@@ -452,7 +452,7 @@
             "server": "local"
         },
         "auto_detect_interface": true,
-        "final": "Proxy",
+        "final": "Proxies",
         "rules": [
             {
                 "inbound": [
@@ -482,7 +482,7 @@
             {
                 "rule_set": "geosite-category-ads-all",
                 "clash_mode": "global",
-                "outbound": "Proxy"
+                "outbound": "Proxies"
             },
             {
                 "clash_mode": "direct",
@@ -490,7 +490,7 @@
             },
             {
                 "clash_mode": "global",
-                "outbound": "Proxy"
+                "outbound": "Proxies"
             },
             {
                 "domain": [
