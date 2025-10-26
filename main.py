@@ -11,11 +11,6 @@ parsers_mod = {}
 providers = None
 color_code = [31, 32, 33, 34, 35, 36, 91, 92, 93, 94, 95, 96]
 
-def clean_name(node):
-    if isinstance(node, dict) and 'name' in node:
-        node['name'] = node['name'].replace('??', '')
-    return node
-
 
 def loop_color(text):
     text = '\033[1;{color}m{text}\033[0m'.format(color=color_code[0], text=text)
@@ -138,8 +133,8 @@ def nodefilter(nodes, subscribe):
 
 def get_nodes(url):
     def clean_name(node):
-        if isinstance(node, dict) and 'name' in node and isinstance(node['name'], str):
-            node['name'] = node['name'].replace('??', '')
+        if isinstance(node, dict) and 'tag' in node and isinstance(node['tag'], str):
+            node['tag'] = node['tag'].replace('?? ', '')
         return node
 
     if url.startswith('sub://'):
