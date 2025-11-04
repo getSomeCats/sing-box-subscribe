@@ -174,14 +174,16 @@
             "tag": "Google",
             "type": "selector",
             "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
+                "{all}"
             ],
-            "default": "America"
+            "filter": [
+                {
+                    "action": "include",
+                    "keywords": [
+                        "🇺🇸|US|us|美国|United States"
+                    ]
+                }
+            ]
         },
         {
             "tag": "Telegram",
@@ -511,7 +513,6 @@
             },
             {
                 "rule_set": [
-                    "geosite-youtube",
                     "geoip-google",
                     "geosite-google",
                     "geosite-github"
