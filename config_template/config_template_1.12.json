@@ -186,123 +186,11 @@
             ]
         },
         {
-            "tag": "Telegram",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "Twitter",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "Facebook",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "BiliBili",
-            "type": "selector",
-            "outbounds": [
-                "direct",
-                "HongKong",
-                "TaiWan"
-            ]
-        },
-        {
-            "tag": "Bahamut",
-            "type": "selector",
-            "outbounds": [
-                "TaiWan",
-                "Proxies"
-            ]
-        },
-        {
-            "tag": "Spotify",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "TikTok",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America"
-            ],
-            "default": "Japan"
-        },
-        {
-            "tag": "Netflix",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "Disney+",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
             "tag": "Apple",
             "type": "selector",
             "outbounds": [
                 "direct",
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
+                "Proxies"
             ]
         },
         {
@@ -310,41 +198,8 @@
             "type": "selector",
             "outbounds": [
                 "direct",
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "Streaming",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others"
-            ],
-            "default": "America"
-        },
-        {
-            "tag": "Global",
-            "type": "selector",
-            "outbounds": [
-                "HongKong",
-                "TaiWan",
-                "Singapore",
-                "Japan",
-                "America",
-                "Others",
-                "direct"
-            ],
-            "default": "America"
+                "Proxies"
+            ]
         },
         {
             "tag": "China",
@@ -352,96 +207,6 @@
             "outbounds": [
                 "direct",
                 "Proxies"
-            ]
-        },
-        {
-            "tag": "HongKong",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇭🇰|HK|hk|香港|港|HongKong"
-                    ]
-                }
-            ]
-        },
-        {
-            "tag": "TaiWan",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇹🇼|TW|tw|台湾|臺灣|台|Taiwan"
-                    ]
-                }
-            ]
-        },
-        {
-            "tag": "Singapore",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇸🇬|SG|sg|新加坡|狮|Singapore"
-                    ]
-                }
-            ]
-        },
-        {
-            "tag": "Japan",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇯🇵|JP|jp|日本|Japan"
-                    ]
-                }
-            ]
-        },
-        {
-            "tag": "America",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "include",
-                    "keywords": [
-                        "🇺🇸|US|us|美国|United States"
-                    ]
-                }
-            ]
-        },
-        {
-            "tag": "Others",
-            "type": "selector",
-            "outbounds": [
-                "{all}"
-            ],
-            "filter": [
-                {
-                    "action": "exclude",
-                    "keywords": [
-                        "🇭🇰|HK|hk|香港|香|🇹🇼|TW|tw|台湾|台|🇸🇬|SG|sg|新加坡|狮|🇯🇵|JP|jp|日本|日|🇺🇸|US|us|美国|"
-                    ]
-                }
             ]
         },
         {
@@ -521,54 +286,6 @@
             },
             {
                 "rule_set": [
-                    "geoip-telegram",
-                    "geosite-telegram"
-                ],
-                "outbound": "Telegram"
-            },
-            {
-                "rule_set": [
-                    "geoip-twitter",
-                    "geosite-twitter"
-                ],
-                "outbound": "Twitter"
-            },
-            {
-                "rule_set": [
-                    "geoip-facebook",
-                    "geosite-facebook"
-                ],
-                "outbound": "Facebook"
-            },
-            {
-                "rule_set": "geosite-bilibili",
-                "outbound": "BiliBili"
-            },
-            {
-                "rule_set": "geosite-bahamut",
-                "outbound": "Bahamut"
-            },
-            {
-                "rule_set": "geosite-spotify",
-                "outbound": "Spotify"
-            },
-            {
-                "rule_set": "geosite-tiktok",
-                "outbound": "TikTok"
-            },
-            {
-                "rule_set": [
-                    "geoip-netflix",
-                    "geosite-netflix"
-                ],
-                "outbound": "Netflix"
-            },
-            {
-                "rule_set": "geosite-disney",
-                "outbound": "Disney+"
-            },
-            {
-                "rule_set": [
                     "geoip-apple",
                     "geosite-apple",
                     "geosite-amazon"
@@ -584,15 +301,8 @@
                 "outbound": "Anthropic"
             },
             {
-                "rule_set": [
-                    "geosite-hbo",
-                    "geosite-primevideo"
-                ],
-                "outbound": "Streaming"
-            },
-            {
                 "rule_set": "geosite-geolocation-!cn",
-                "outbound": "Global"
+                "outbound": "Proxies"
             },
             {
                 "rule_set": [
